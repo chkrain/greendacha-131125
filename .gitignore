@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pybuild
+build
+debhelper-build-stamp
+python3-*
+.Python
+env/
+venv/
+.venv/
+.env
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.egg-info
+upydev_.config
+*.ex
+debian
+.env.local
+.env*.local
+*.log .env

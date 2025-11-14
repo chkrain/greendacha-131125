@@ -1,0 +1,40 @@
+import sys
+from pysca import app
+import pysca
+from pysca.device import PYPLC
+import pygui.navbar as navbar
+# from concrete6 import concrete6 # для бетонного 
+
+def main():
+    import argparse
+    args = argparse.ArgumentParser(sys.argv)
+    args.add_argument('--device', action='store', type=str, default='192.168.2.10', help='IP address of the device')
+    args.add_argument('--simulator', action='store_true', default=False, help='Same as --device 127.0.0.1')
+    ns = args.parse_known_args()[0]
+    if ns.simulator:
+        ns.device = '127.0.0.1'
+        import subprocess
+        logic = subprocess.Popen(["python3", "src/krax.py"])
+    
+    dev = PYPLC(ns.device)
+    app.devices['PLC'] = dev
+    
+    Home = app.window('ui/Home.ui')
+    # с использованием navbar
+    navbar.append(Home)       
+    navbar.instance.show( )
+    # concrete6.setMainWindow(navbar.instance)
+    # или 
+
+    # Home.show()               
+    
+    dev.start(100)
+    app.start( ctx = globals() )
+    dev.stop( )
+
+    if ns.simulator:
+        logic.terminate( )
+        pass
+
+if __name__=='__main__':
+    main( )
